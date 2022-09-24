@@ -17,7 +17,13 @@ app.post("/", function(req, res){
     const url = "https://api.openweathermap.org/data/2.5/weather?q=" + query + "&id=524901&appid=" + apiKey;
     https.get(url, function(response) {
         console.log(response.statusCode);
-
+    
+    if(response.statusCode == "404")
+    {
+        res.send("<h1>Invalid Input!!</h1>");
+    }
+    else
+    {
     response.on("data", function(data) {
         const weatherData = JSON.parse(data);
         const temp = weatherData.main.temp;
@@ -29,6 +35,7 @@ app.post("/", function(req, res){
         res.write("<img src=" + imageUrl + ">");
         res.send();
         });
+     }
     });
 })
 
